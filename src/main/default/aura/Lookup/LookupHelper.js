@@ -1,7 +1,7 @@
 ({
     updateSearchTerm : function(component, searchTerm) {
 
-        // Defines the minimum length of search term depending on wether a method exists to handle short searches or not
+        // Defines the minimum length of search term depending on whether a method exists to handle short searches or not
         const minLengthSearchTerm = component.get('v.hasSoql') ? 0 : 2;
 
         // Save search term so that it updates input
@@ -72,6 +72,7 @@
 
     clearSelection : function(component, itemId) {
         component.set('v.selection', []);
+        component.set('v.cleanSearchTerm', null);
         // Fire event so that it fires the validation
         var event = component.getEvent('onSelection');
         if (event) {

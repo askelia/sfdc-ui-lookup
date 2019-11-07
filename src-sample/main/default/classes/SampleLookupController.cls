@@ -17,22 +17,22 @@ public with sharing class SampleLookupController {
         Opportunity [] opptys;
 
         if (tooShortForSosl){
-            //SOQL queries
+            //SOQL queries 
             List<Account> accs = [SELECT Id, Name, BillingCity, LastModifiedDate FROM Account 
                                         WHERE id NOT IN :selectedIds 
-                                        AND Name like :searchTerm 
-                                        limit :MAX_RESULTS oreder by LastModifiedDate];
+                                        AND Name like :searchTerm  order by LastModifiedDate DESC
+                                        limit :MAX_RESULTS ];
             List<Opportunity> opps = [SELECT Id, Name, StageName, LastModifiedDate FROM Opportunity 
                                         WHERE id NOT IN :selectedIds 
-                                        AND Name like :searchTerm 
-                                        limit :MAX_RESULTS order by LastModifiedDate];
+                                        AND Name like :searchTerm order by LastModifiedDate DESC
+                                        limit :MAX_RESULTS ];
             accounts = new List<Account>();
             opptys = new List<Opportunity>();
-            // keep only MAX_RESULTS results, the ones with most recent modifed date
-            for (Integer i=0; i<=MAX_RESULTS; i++ ){
+            
+            // keep only MAX_RESULTS results, ie. the ones with most recent modifed date
+            for (Integer i=0; i<MAX_RESULTS; i++ ){
                 if (accs.size()>0 && opps.size()>0){
-                    if (accs.get(0).LastModifiedDate > opps.get(0).LastModifiedDate)
-                    {
+                    if (accs.get(0).LastModifiedDate > opps.get(0).LastModifiedDate){
                         accounts.add(accs.get(0));
                         accs.remove(0);
                     } else {
@@ -44,7 +44,7 @@ public with sharing class SampleLookupController {
                     accounts.add(accs.get(0));
                     accs.remove(0);
                 }
-                else if (opss.size()>0){
+                else if (opps.size()>0){
                     opptys.add(opps.get(0));
                     opps.remove(0);
                 }
