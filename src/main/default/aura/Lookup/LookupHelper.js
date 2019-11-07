@@ -1,10 +1,14 @@
 ({
     updateSearchTerm : function(component, searchTerm) {
+
+        // Defines the minimum length of search term depending on wether a method exists to handle short searches or not
+        const minLengthSearchTerm = component.get('v.hasSoql') ? 0 : 2;
+
         // Save search term so that it updates input
         component.set('v.searchTerm', searchTerm);
         
         // Get previous clean search term
-        const cleanSearchTerm = component.set('v.cleanSearchTerm');
+        const cleanSearchTerm = component.get('v.cleanSearchTerm');
 
         // Compare clean new search term with current one and abort if identical
         const newCleanSearchTerm = searchTerm.trim().replace(/\*/g, '').toLowerCase();
@@ -16,7 +20,7 @@
         component.set('v.cleanSearchTerm', newCleanSearchTerm);
 
         // Ignore search terms that are too small
-        if (newCleanSearchTerm.length < 2) {
+        if (newCleanSearchTerm.length < minLengthSearchTerm) {
             component.set('v.searchResults', []);
             return;
         }
@@ -30,7 +34,7 @@
             $A.getCallback(function() {
                 // Send search event if it long enougth
                 const searchTerm = component.get('v.searchTerm');
-                if (searchTerm.length >= 2) {
+                if (searchTerm.length >= minLengthSearchTerm) {
                     const searchEvent = component.getEvent('onSearch');
                     searchEvent.fire();
                 }

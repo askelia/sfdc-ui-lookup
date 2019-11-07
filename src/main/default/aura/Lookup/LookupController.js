@@ -89,6 +89,8 @@
             return;
         }
         component.set('v.hasFocus', true);
+        const newSearchTerm = event.target.value;
+        helper.updateSearchTerm(component, newSearchTerm);
     },
 
     onBlur : function(component, event, helper) {

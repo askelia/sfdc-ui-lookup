@@ -3,11 +3,13 @@
     <aura:attribute access="global" type="List" name="selection" required="true" description="List of selected items (a list of only one element for a single entry lookup). Data structure is the same as Apex List&lt;LookupSearchResult&gt;." />
     <aura:attribute access="global" type="String" name="placeholder" default="" description="Component's placeholder. Optional, defaults to none." />
     <aura:attribute access="global" type="Boolean" name="isMultiEntry" default="false" description="Whether this component allows multiple selection. Optional, defaults to true." />
+    <aura:attribute access="global" type="Boolean" name="hasSoql" default="false" 
+        description="Optional, defaults to false. Set to true to allow searches with zero or one length searchTerm so that the list is populated on load. Requires a soql search on server." />
     <aura:attribute access="global" type="List" name="errors" default="[]" description="An array of error messages to display on conditions set by the consumer component, e.g [ {'message': 'Error!' } ]" />
     <aura:attribute access="global" type="Integer" name="scrollAfterNItems" default="5" description="A null or integer value used to force overflow scroll on the result listbox after N number of items. Valid values are null, 5, 7, or 10. Use null to disable overflow scrolling." />
 
     <aura:attribute access="private" type="String" name="searchTerm" default="" />
-    <aura:attribute access="private" type="String" name="cleanSearchTerm" default="" />
+    <aura:attribute access="private" type="String" name="cleanSearchTerm" />
     <aura:attribute access="private" type="List" name="searchResults" default="[]" />
     <aura:attribute access="private" type="Boolean" name="hasFocus" default="false" />
     <aura:attribute access="private" type="Map" name="blurTimeout" />
